@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final IRoleRepository roleRepository;
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //cách spring security kiểm tra thông tin
