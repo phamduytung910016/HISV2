@@ -40,8 +40,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         employeeAuthenticationFilter.setFilterProcessesUrl("/api/login/**");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/api/login","/api/admin/Employee/token/refresh/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/admin/department/**").hasAnyAuthority(roleRepository.findById(6).get().getName());
+        http.authorizeRequests().antMatchers("/api/login", "/api/admin/Employee/token/refresh/**").permitAll();
+
+
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/admin/department/**")
+                .hasAnyAuthority(roleRepository.findById(6).get().getName(),
+                        roleRepository.findById(7).get().getName());
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/admin/department/**")
+                .hasAnyAuthority(roleRepository.findById(6).get().getName());
+
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/admin/employee/**")
+                .hasAnyRole(roleRepository.findById(6).get().getName()
+                        , roleRepository.findById(7).get().getName());
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/admin/employee/**").hasRole(roleRepository.findById(6).get().getName());
 //        http.authorizeRequests().anyRequest().permitAll();
         http.addFilter(employeeAuthenticationFilter);
         http.addFilterBefore(new EmployeeAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

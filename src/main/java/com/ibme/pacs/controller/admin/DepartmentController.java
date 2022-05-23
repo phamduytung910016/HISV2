@@ -3,10 +3,13 @@ package com.ibme.pacs.controller.admin;
 import com.ibme.pacs.dto.DepartmentDTO;
 import com.ibme.pacs.entities.Department;
 import com.ibme.pacs.entities.ResponseObject;
+import com.ibme.pacs.repository.IRoleRepository;
 import com.ibme.pacs.service.inter.IDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +24,12 @@ import java.util.Map;
 @RequestMapping(path = "/api/admin/department")
 public class DepartmentController {
 
-    //Tài đẹp trai
+
     @Autowired
     private IDepartmentService departmentService;
+
+    @Autowired
+    private IRoleRepository roleRepository;
 
     @GetMapping("/list")
     public ResponseEntity<ResponseObject> getAll() {
