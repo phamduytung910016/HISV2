@@ -82,7 +82,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("ok")
-                        .message("Insert new department successfully")
+                        .message("Insert new employee successfully")
                         .data(employeeService.saveOrUpdate(employeeDTO))
                         .build());
 
@@ -93,7 +93,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.FOUND).body(
                 ResponseObject.builder()
                         .status("found")
-                        .message("Find all department by name")
+                        .message("Find all employee by name")
                         .data(employeeService.findByName(name))
                         .build()
         );
@@ -147,7 +147,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.FOUND).body(
                 ResponseObject.builder()
                         .status("found")
-                        .message("Find all department by name")
+                        .message("Find all employee by department")
                         .data(employeeService.findByDepartment(id))
                         .build()
         );
@@ -183,7 +183,7 @@ public class EmployeeController {
                 List<Role> roles = new ArrayList<>();
                 roles.add(employee.getRole());
                 String access_token = JWT.create().withSubject(employee.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 1000))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
                         .withIssuer(request.getRequestURI().toString())
                         .withClaim("role", roles.stream().map(Role::getName).collect(Collectors.toList()))
                         .sign(algorithm);

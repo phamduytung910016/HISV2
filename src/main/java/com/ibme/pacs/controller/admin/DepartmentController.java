@@ -2,9 +2,12 @@ package com.ibme.pacs.controller.admin;
 
 import com.ibme.pacs.dto.DepartmentDTO;
 import com.ibme.pacs.entities.Department;
+
 import com.ibme.pacs.entities.ResponseObject;
 import com.ibme.pacs.repository.IRoleRepository;
+import com.ibme.pacs.service.impl.DeparmentServiceImpl;
 import com.ibme.pacs.service.inter.IDepartmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +25,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api/admin/department")
+@RequiredArgsConstructor
 public class DepartmentController {
 
 
-    @Autowired
-    private IDepartmentService departmentService;
+
+    private final IDepartmentService departmentService;
 
     @Autowired
     private IRoleRepository roleRepository;
