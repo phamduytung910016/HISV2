@@ -2,6 +2,7 @@ package com.ibme.pacs.controller.admin;
 
 import com.ibme.pacs.dto.DepartmentDTO;
 import com.ibme.pacs.entities.Department;
+import com.ibme.pacs.entities.Person;
 import com.ibme.pacs.entities.ResponseObject;
 import com.ibme.pacs.repository.IRoleRepository;
 import com.ibme.pacs.service.inter.IDepartmentService;
