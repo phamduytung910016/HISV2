@@ -3,8 +3,13 @@ package com.ibme.pacs.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ibme.pacs.entities.Employee;
+import com.ibme.pacs.repository.IEmployeeRepository;
+import com.ibme.pacs.service.impl.EmployeeServiceImpl;
+import com.ibme.pacs.service.inter.IEmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.mapping.Collection;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,6 +34,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class EmployeeAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+    private final EmployeeServiceImpl employeeService;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -59,9 +65,11 @@ public class EmployeeAuthenticationFilter extends UsernamePasswordAuthentication
                 .sign(algorithm);
         response.setHeader("access_token", access_token);
         response.setHeader("refresh_token", refresh_token);
+        response.setHeader("id", String.valueOf(employeeService.findByUserName(user.getUsername()).getId()));
         Map<String,String> tokens = new HashMap<>();
         tokens.put("access_token",access_token);
         tokens.put("refresh_token",refresh_token);
+        tokens.put("id", String.valueOf(employeeService.findByUserName(user.getUsername()).getId()));
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(),tokens);
         log.info("Logging successfully");

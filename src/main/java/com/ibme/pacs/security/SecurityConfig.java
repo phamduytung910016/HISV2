@@ -2,7 +2,10 @@ package com.ibme.pacs.security;
 
 import com.ibme.pacs.filter.EmployeeAuthenticationFilter;
 import com.ibme.pacs.filter.EmployeeAuthorizationFilter;
+import com.ibme.pacs.repository.IEmployeeRepository;
 import com.ibme.pacs.repository.IRoleRepository;
+import com.ibme.pacs.service.impl.EmployeeServiceImpl;
+import com.ibme.pacs.service.inter.IEmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final IRoleRepository roleRepository;
+    private final IEmployeeService employeeService;
 
 
     @Override
@@ -36,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        EmployeeAuthenticationFilter employeeAuthenticationFilter = new EmployeeAuthenticationFilter(authenticationManagerBean());
+        EmployeeAuthenticationFilter employeeAuthenticationFilter = new EmployeeAuthenticationFilter(authenticationManagerBean(), (EmployeeServiceImpl) employeeService);
         employeeAuthenticationFilter.setFilterProcessesUrl("/api/login/**");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
@@ -62,4 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+
 }

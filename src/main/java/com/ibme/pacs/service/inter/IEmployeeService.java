@@ -21,6 +21,9 @@ public interface IEmployeeService {
 
     boolean delete(int id);
 
+    Employee findByUserName(String username);
+
+
 
     Employee saveOrUpdate(EmployeeDTO employeeDTO);
 }
