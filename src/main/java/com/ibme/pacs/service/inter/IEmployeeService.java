@@ -3,9 +3,12 @@ package com.ibme.pacs.service.inter;
 
 import com.ibme.pacs.dto.EmployeeDTO;
 import com.ibme.pacs.entities.Employee;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public interface IEmployeeService {
 
     List<Employee> findAll();

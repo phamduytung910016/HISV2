@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
+@Data
 public class KhamBenhNgoaiTru extends HoSoBenhAn {
     private String toanThan;
     private String cacBoPhan;

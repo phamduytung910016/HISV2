@@ -17,8 +17,8 @@ public class ThongTinHanhChinh extends TieuSuBenh {
     private String quocTich;
     private String diaChi;
     private String noiLamViec;
-    @Enumerated(EnumType.STRING)
-    private DoiTuong doiTuong;
+
+    private String doiTuong;
     private String baoHiemYTeCoGiaTri;
     private String soTheBaoHiemYTe;
     private String hovaTenNguoiNha;

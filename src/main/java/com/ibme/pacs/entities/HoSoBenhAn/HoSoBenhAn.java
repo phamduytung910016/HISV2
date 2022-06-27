@@ -7,6 +7,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 @MappedSuperclass
+@Data
 public class HoSoBenhAn extends ThongTinHanhChinh{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,7 +27,6 @@ public class HoSoBenhAn extends ThongTinHanhChinh{
     @JoinColumn(name = "nhan_vien_luu_tru_id")
     private Employee nhanVienLuTru;
 
-    @Enumerated(EnumType.STRING)
-    private TrangThai trangThai;
+    private String trangThai;
 
 }
