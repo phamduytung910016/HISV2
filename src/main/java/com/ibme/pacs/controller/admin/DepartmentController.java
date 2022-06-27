@@ -26,6 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/api/admin/department")
 @RequiredArgsConstructor
+@ResponseStatus
 public class DepartmentController {
 
 

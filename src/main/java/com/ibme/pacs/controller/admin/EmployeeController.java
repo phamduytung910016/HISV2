@@ -37,6 +37,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping(path = "/api/admin/employee")
 @RequiredArgsConstructor
+@ResponseStatus
 public class EmployeeController {
     private final IEmployeeService employeeService;
     private final IEmployeeRepository employeeRepository;
