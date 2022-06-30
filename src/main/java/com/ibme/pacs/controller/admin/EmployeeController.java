@@ -51,6 +51,7 @@ public class EmployeeController {
                 ;
     }
 
+    @ResponseStatus
     @PostMapping("/add")
     public ResponseEntity<ResponseObject> insert(@RequestBody @Valid EmployeeDTO employeeDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -90,8 +91,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/search/{name}")
+    @ResponseStatus
     public ResponseEntity<ResponseObject> findByName(@PathVariable(name = "name", required = true) String name) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(
+        return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("found")
                         .message("Find all employee by name")
@@ -101,8 +103,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/findById/{id}")
+    @ResponseStatus
     public ResponseEntity<ResponseObject> findById(@PathVariable(name = "id") int id) {
-        return employeeService.findById(id).isPresent() ? ResponseEntity.status(HttpStatus.FOUND).body(
+        return employeeService.findById(id).isPresent() ? ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("found")
                         .message("Find employee by id" + id)
@@ -118,6 +121,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/update/{id}")
+    @ResponseStatus
     public ResponseEntity<ResponseObject> update(@PathVariable(name = "id") int id, @RequestBody @Valid EmployeeDTO employeeDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -144,8 +148,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/findByDepartment/{departmentId}")
+    @ResponseStatus
     public ResponseEntity<ResponseObject> findByDepartment(@PathVariable(name = "departmentId", required = true) int id) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(
+        return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("found")
                         .message("Find all employee by department")
@@ -155,6 +160,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @ResponseStatus
     public ResponseEntity<ResponseObject> delete(@PathVariable(name = "id") int id) {
         return employeeService.delete(id) ?
                 ResponseEntity.status(HttpStatus.OK).body(
@@ -171,6 +177,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/token/refresh")
+    @ResponseStatus
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("IBME-")) {

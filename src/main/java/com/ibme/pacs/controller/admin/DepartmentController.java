@@ -46,6 +46,7 @@ public class DepartmentController {
     }
 
     @PostMapping("/add")
+    @ResponseStatus
     public ResponseEntity<ResponseObject> insert(@RequestBody @Valid DepartmentDTO departmentDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -82,8 +83,9 @@ public class DepartmentController {
     }
 
     @GetMapping("/search/{name}")
+    @ResponseStatus
     public ResponseEntity<ResponseObject> findByName(@PathVariable(name = "name", required = true) String name) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(
+        return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("found")
                         .message("Find all department by name")
@@ -93,8 +95,9 @@ public class DepartmentController {
     }
 
     @GetMapping("/findById/{id}")
+    @ResponseStatus
     public ResponseEntity<ResponseObject> findById(@PathVariable(name = "id") int id) {
-        return departmentService.findById(id).isPresent() ? ResponseEntity.status(HttpStatus.FOUND).body(
+        return departmentService.findById(id).isPresent() ? ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("found")
                         .message("Find department by id" + id)
@@ -110,6 +113,7 @@ public class DepartmentController {
     }
 
     @PostMapping("/update/{id}")
+    @ResponseStatus
     public ResponseEntity<ResponseObject> update(@PathVariable(name = "id") int id, @RequestBody DepartmentDTO departmentDTO) {
         departmentDTO.setId(id);
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -121,6 +125,7 @@ public class DepartmentController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @ResponseStatus
     public ResponseEntity<ResponseObject> delete(@PathVariable(name = "id") int id) {
         return departmentService.delete(id) ?
                 ResponseEntity.status(HttpStatus.OK).body(
