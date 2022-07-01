@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -21,7 +22,7 @@ import java.util.List;
 public class HoSoBenhAnNgoaiTruServiceImpl implements IHoSoBenhAnNgoaiTruService {
     private final IHoSoBenhAnNgoaiTruRepository hoSoBenhAnNgoaiTruRepository;
     private final IEmployeeRepository employeeRepository;
-    private IDepartmentRepository departmentRepository;
+    private final IDepartmentRepository departmentRepository;
 
     @Override
     public List<HoSoBenhAnNgoaiTru> findAll() {
@@ -34,17 +35,16 @@ public class HoSoBenhAnNgoaiTruServiceImpl implements IHoSoBenhAnNgoaiTruService
     }
 
     @Override
-    public HoSoBenhAnNgoaiTru findById(int id) {
-        return hoSoBenhAnNgoaiTruRepository.findById(id).get();
+    public Optional<HoSoBenhAnNgoaiTru> findById(int id) {
+        return hoSoBenhAnNgoaiTruRepository.findById(id);
     }
 
     @Override
-    public HoSoBenhAnNgoaiTru saveOrUpdate(HoSoBenhAnNgoaiTruDTO hoSoBenhAnNgoaiTruDTO) {
+    public HoSoBenhAnNgoaiTru saveOrUpdate(HoSoBenhAnNgoaiTruDTO hoSoBenhAnNgoaiTruDTO) throws Exception {
         HoSoBenhAnNgoaiTru hoSoBenhAnNgoaiTru = new HoSoBenhAnNgoaiTru();
         BeanUtils.copyProperties(hoSoBenhAnNgoaiTruDTO,hoSoBenhAnNgoaiTru);
-        hoSoBenhAnNgoaiTru.setKhoaPhong(departmentRepository.findById(hoSoBenhAnNgoaiTruDTO.getKhoaPhongId()).get());
-        hoSoBenhAnNgoaiTru.setNhanVienLuTru(employeeRepository.findById(hoSoBenhAnNgoaiTruDTO.getNhanVienLuTruId()).get());
-
+        hoSoBenhAnNgoaiTru.setKhoaPhong(departmentRepository.findById(hoSoBenhAnNgoaiTruDTO.getKhoaPhongId().intValue()).get());
+        hoSoBenhAnNgoaiTru.setNhanVienLuTru(employeeRepository.findById(hoSoBenhAnNgoaiTruDTO.getNhanVienLuTruId().intValue()).get());
         return hoSoBenhAnNgoaiTruRepository.save(hoSoBenhAnNgoaiTru);
     }
 

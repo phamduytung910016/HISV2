@@ -11,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 public class EmployeeDTO {
     private int id;
+
     @NotEmpty(message = "Chưa nhập tên")
     private String name;
 

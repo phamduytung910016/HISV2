@@ -8,10 +8,18 @@ import java.io.Serializable;
 @MappedSuperclass
 @Data
 public class ThongTinHanhChinh extends TieuSuBenh {
+    @Column(name = "hoVaTen", length = 255)
     private String hoVaTen;
-    private int tuoi;
+
+    @Column(name = "tuoi", length = 25)
+    private Long tuoi;
+
     private String ngaySinh;
-    private boolean gioiTinh;
+
+    @Column(name = "gioiTinh", length = 255)
+    private String gioiTinh;
+
+
     private String ngheNghiep;
     private String danToc;
     private String quocTich;

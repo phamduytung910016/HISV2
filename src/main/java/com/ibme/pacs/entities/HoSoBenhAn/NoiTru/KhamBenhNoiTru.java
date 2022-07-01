@@ -10,6 +10,7 @@ import javax.persistence.MappedSuperclass;
 public class KhamBenhNoiTru extends HoSoBenhAn {
     private String tuanHoan;
     private String hoHap;
+    private String tieuHoa;
     private String thanTietNieuSinhDuc;
     private String thanKinh;
     private String coXuongKhop;

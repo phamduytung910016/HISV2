@@ -6,19 +6,19 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ibme.pacs.dto.DepartmentDTO;
 import com.ibme.pacs.dto.EmployeeDTO;
-import com.ibme.pacs.entities.Department;
+import com.ibme.pacs.dto.SoTheoDoiSaiSotHSBADTO;
 import com.ibme.pacs.entities.Employee;
 import com.ibme.pacs.entities.ResponseObject;
 import com.ibme.pacs.entities.Role;
 import com.ibme.pacs.repository.IEmployeeRepository;
 import com.ibme.pacs.service.inter.IEmployeeService;
+import com.ibme.pacs.service.inter.IHoSoBenhAnNgoaiTruService;
+import com.ibme.pacs.service.inter.IHoSoBenhAnNoiTruService;
+import com.ibme.pacs.service.inter.ISoTheoDoiSaiSotHSBAService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -35,25 +35,27 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping(path = "/api/admin/employee")
+@RequestMapping(path = "/api/admin/soTheoDoi")
 @RequiredArgsConstructor
 @ResponseStatus
-public class EmployeeController {
+public class SoTheoDoiHSBAController {
+    private final ISoTheoDoiSaiSotHSBAService soTheoDoiSaiSotHSBAService;
     private final IEmployeeService employeeService;
-    private final IEmployeeRepository employeeRepository;
+    private final IHoSoBenhAnNoiTruService hoSoBenhAnNoiTruService;
+    private final IHoSoBenhAnNgoaiTruService hoSoBenhAnNgoaiTruService;
 
     @GetMapping("/list")
     public ResponseEntity<ResponseObject> getAll() {
-        return employeeService.findAll().size() > 0 ? ResponseEntity.status(HttpStatus.OK).body(
-                ResponseObject.builder().status("ok").message("Find all employees").data(employeeService.findAll()).build()) :
+        return soTheoDoiSaiSotHSBAService.findAll().size() > 0 ? ResponseEntity.status(HttpStatus.OK).body(
+                ResponseObject.builder().status("ok").message("Find all ").data(soTheoDoiSaiSotHSBAService.findAll()).build()) :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                        ResponseObject.builder().status("failed").message("Cannot find employees").data(employeeService.findAll()).build())
+                        ResponseObject.builder().status("failed").message("Cannot find").data(soTheoDoiSaiSotHSBAService.findAll()).build())
                 ;
     }
 
     @ResponseStatus
     @PostMapping("/add")
-    public ResponseEntity<ResponseObject> insert(@RequestBody @Valid EmployeeDTO employeeDTO, BindingResult bindingResult) {
+    public ResponseEntity<ResponseObject> insert(@RequestBody @Valid SoTheoDoiSaiSotHSBADTO soTheoDoiSaiSotHSBADTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getAllErrors().forEach((error)->{
@@ -70,34 +72,24 @@ public class EmployeeController {
             );
         }
 
-        List<Employee> findEmail = employeeRepository.findEmployeeByEmail(employeeDTO.getEmail().trim());
-        Employee findUserName = employeeRepository.findEmployeeByUsername(employeeDTO.getEmail().trim());
-        if (findEmail.size() > 0 || findUserName != null) {
-            return ResponseEntity.badRequest().body(
-                    ResponseObject.builder()
-                            .status("failed")
-                            .message("The email or username record has been already exist")
-                            .data(findEmail)
-                            .build());
-        }
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("ok")
-                        .message("Insert new employee successfully")
-                        .data(employeeService.saveOrUpdate(employeeDTO))
+                        .message("Insert successfully")
+                        .data(soTheoDoiSaiSotHSBAService.saveOrUpdate(soTheoDoiSaiSotHSBADTO))
                         .build());
 
     }
 
-    @GetMapping("/search/{name}")
+    @GetMapping("/search/{employeeId}")
     @ResponseStatus
-    public ResponseEntity<ResponseObject> findByName(@PathVariable(name = "name", required = true) String name) {
+    public ResponseEntity<ResponseObject> findByEmployee(@PathVariable(name = "employeeId", required = true) int employeeId) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("found")
-                        .message("Find all employee by name")
-                        .data(employeeService.findByName(name))
+                        .message("Result")
+                        .data(soTheoDoiSaiSotHSBAService.findSoTheoDoiSaiSotHSBAByEmployee(employeeService.findById(employeeId).get()))
                         .build()
         );
     }
@@ -105,24 +97,24 @@ public class EmployeeController {
     @GetMapping("/findById/{id}")
     @ResponseStatus
     public ResponseEntity<ResponseObject> findById(@PathVariable(name = "id") int id) {
-        return employeeService.findById(id).isPresent() ? ResponseEntity.status(HttpStatus.OK).body(
+        return soTheoDoiSaiSotHSBAService.findById(id).isPresent() ? ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("found")
-                        .message("Find employee by id" + id)
+                        .message("Find by id" + id)
                         .data(employeeService.findById(id).get())
                         .build()
         ) :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                         ResponseObject.builder()
                                 .status("Not found")
-                                .message("Cannot found employee with id = " + id)
+                                .message("Cannot found with id = " + id)
                                 .build()
                 );
     }
 
     @PostMapping("/update/{id}")
     @ResponseStatus
-    public ResponseEntity<ResponseObject> update(@PathVariable(name = "id") int id, @RequestBody @Valid EmployeeDTO employeeDTO, BindingResult bindingResult) {
+    public ResponseEntity<ResponseObject> update(@PathVariable(name = "id") int id, @RequestBody @Valid SoTheoDoiSaiSotHSBADTO soTheoDoiSaiSotHSBADTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getAllErrors().forEach((error)->{
@@ -138,23 +130,39 @@ public class EmployeeController {
                             .build()
             );
         }
-        employeeDTO.setId(id);
+        soTheoDoiSaiSotHSBADTO.setId(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("ok")
                         .message("The record is updated")
-                        .data(employeeService.saveOrUpdate(employeeDTO))
+                        .data(soTheoDoiSaiSotHSBAService.saveOrUpdate(soTheoDoiSaiSotHSBADTO))
                         .build());
     }
 
-    @GetMapping("/findByDepartment/{departmentId}")
+    @GetMapping("/findByHSBANoiTru/{hsbaNoiTruId}")
     @ResponseStatus
-    public ResponseEntity<ResponseObject> findByDepartment(@PathVariable(name = "departmentId", required = true) int id) {
+    public ResponseEntity<ResponseObject> findByHoSoBenhAnNoiTru(@PathVariable(name = "hsbaNoiTruId", required = true) int hsbaNoiTruId) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
                         .status("found")
                         .message("Find all employee by department")
-                        .data(employeeService.findByDepartment(id))
+                        .data(soTheoDoiSaiSotHSBAService.findSoTheoDoiSaiSotHSBAByHoSoBenhAnNoiTru(
+                                hoSoBenhAnNoiTruService.findById(hsbaNoiTruId).get()
+                        ))
+                        .build()
+        );
+    }
+
+    @GetMapping("/findByHSBANgoaiiTru/{hsbaNgoaiTruId}")
+    @ResponseStatus
+    public ResponseEntity<ResponseObject> findByHoSoBenhAnNgoaiTru(@PathVariable(name = "hsbaNgoaiTruId", required = true) int hsbaNgoaiTruId) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ResponseObject.builder()
+                        .status("found")
+                        .message("Find all employee by department")
+                        .data(soTheoDoiSaiSotHSBAService.findSoTheoDoiSaiSotHSBAByHoSoBenhAnNgoaiTru(
+                                hoSoBenhAnNgoaiTruService.findById(hsbaNgoaiTruId).get()
+                        ))
                         .build()
         );
     }
@@ -162,7 +170,7 @@ public class EmployeeController {
     @DeleteMapping("/delete/{id}")
     @ResponseStatus
     public ResponseEntity<ResponseObject> delete(@PathVariable(name = "id") int id) {
-        return employeeService.delete(id) ?
+        return soTheoDoiSaiSotHSBAService.deleteById(id) ?
                 ResponseEntity.status(HttpStatus.OK).body(
                         ResponseObject.builder()
                                 .status("ok")
@@ -176,42 +184,6 @@ public class EmployeeController {
         );
     }
 
-    @PostMapping("/token/refresh")
-    @ResponseStatus
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (authorizationHeader != null && authorizationHeader.startsWith("IBME-")) {
-            try {
-                String refresh_token = authorizationHeader.substring("IBME-".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-                JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(refresh_token);
-                String username = decodedJWT.getSubject();
-                Employee employee = employeeRepository.findEmployeeByUsername(username);
-                List<Role> roles = new ArrayList<>();
-                roles.add(employee.getRole());
-                String access_token = JWT.create().withSubject(employee.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-                        .withIssuer(request.getRequestURI().toString())
-                        .withClaim("role", roles.stream().map(Role::getName).collect(Collectors.toList()))
-                        .sign(algorithm);
-                Map<String,String> tokens = new HashMap<>();
-                tokens.put("access_token",access_token);
-                tokens.put("refresh_token",refresh_token);
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(),tokens);
 
-            } catch (Exception exception) {
-                response.setHeader("error", exception.getMessage());
-                response.setStatus(FORBIDDEN.value());
-                Map<String, String> error = new HashMap<>();
-                error.put("error_message", exception.getMessage());
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
-            }
-        }else {
-            throw new RuntimeException("Refresh token is missing");
-        }
-    }
 
 }

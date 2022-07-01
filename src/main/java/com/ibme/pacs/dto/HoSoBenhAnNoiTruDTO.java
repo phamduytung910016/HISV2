@@ -1,21 +1,13 @@
 package com.ibme.pacs.dto;
 
-import com.ibme.pacs.entities.Department;
-import com.ibme.pacs.entities.Employee;
-import com.ibme.pacs.entities.HoSoBenhAn.DoiTuong;
-import com.ibme.pacs.entities.HoSoBenhAn.TrangThai;
+
 import lombok.Data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-
 @Data
-public class HoSoBenhAnNgoaiTruDTO {
+public class HoSoBenhAnNoiTruDTO {
     private Integer id;
 
     @NotEmpty(message = "Chưa nhập")
@@ -82,31 +74,92 @@ public class HoSoBenhAnNgoaiTruDTO {
 
 
     //Tiểu sử bệnh
+    @NotEmpty(message = "Chưa nhập")
     private String benhLy;
+
+    @NotEmpty(message = "Chưa nhập")
     private String quaTrinhBenhLy;
 
 
-    //Khám bệnh ngoại trú
+    //Quản lý người bệnh;
     @NotEmpty(message = "Chưa nhập")
-    private String toanThan;
+    private String thoiGianVaoVien;
 
     @NotEmpty(message = "Chưa nhập")
-    private String cacBoPhan;
+    private String trucTiepVao;
 
     @NotEmpty(message = "Chưa nhập")
-    private String tomTatKetQuaCanlamSang;
+    private String noiGioiThieu;
 
     @NotEmpty(message = "Chưa nhập")
-    private String chuanDoanBanDau;
+    private String vaoKhoa;
 
     @NotEmpty(message = "Chưa nhập")
-    private String daXuLy;
+    private String chuyenVien;
 
     @NotEmpty(message = "Chưa nhập")
-    private String chuanDoanKhiRaVien;
+    private String chuyenDen;
 
     @NotEmpty(message = "Chưa nhập")
-    private String dieuTriNgoaiTru;
+    private String raVien;
+
+    @NotNull(message = "Chưa nhập")
+    private Integer soNgayDieuTri;
+
+
+    //Khám bệnh nội trú
+    @NotEmpty(message = "Chưa nhập")
+    private String tuanHoan;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String hoHap;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String tieuHoa;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String thanTietNieuSinhDuc;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String thanKinh;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String coXuongKhop;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String taiMuiHong;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String rangHamMat;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String mat;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String xetNghiemCanLamSang;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String tomTatBenhAn;
+
+
+    //Tình trạng ra viện
+    @NotEmpty(message = "Chưa nhập")
+    private String ketQuaDieuTri;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String giaiPhauBenh;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String thoiGianTuVong;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String nguyenNhanTuVong;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String khamNghiemTuThi;
+
+    @NotEmpty(message = "Chưa nhập")
+    private String chuanDoanGiaiPhauTuThi;
 
 
     //Tổng kết bệnh án
