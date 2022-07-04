@@ -1,10 +1,13 @@
 package com.ibme.pacs;
 
+import com.ibme.pacs.config.StorageProperties;
 import com.ibme.pacs.dto.EmployeeDTO;
 import com.ibme.pacs.service.inter.IEmployeeService;
+import com.ibme.pacs.service.inter.StorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 
 @SpringBootApplication
+@EnableConfigurationProperties(StorageProperties.class)
 public class PacsApplication {
 
 
@@ -53,4 +57,10 @@ public class PacsApplication {
 //        };
 //    }
 
+    @Bean
+    CommandLineRunner init(StorageService storageService){
+        return (args -> {
+            storageService.init();
+        });
+    }
 }

@@ -102,6 +102,8 @@
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-validation:2.6.6" />
           <element id="library" level="project" name="Maven: org.hibernate.validator:hibernate-validator:6.0.12.Final" />
           <element id="library" level="project" name="Maven: javax.validation:validation-api:2.0.1.Final" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-configuration-processor:2.6.1" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.11.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

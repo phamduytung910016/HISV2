@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "storage",
+      "type": "com.ibme.pacs.config.StorageProperties",
+      "sourceType": "com.ibme.pacs.config.StorageProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "storage.location",
+      "type": "java.lang.String",
+      "sourceType": "com.ibme.pacs.config.StorageProperties"
+    }
+  ],
+  "hints": []
+}
