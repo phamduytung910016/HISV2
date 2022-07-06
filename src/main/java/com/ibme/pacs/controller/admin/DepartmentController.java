@@ -27,6 +27,7 @@ import java.util.Map;
 @RequestMapping(path = "/api/admin/department")
 @RequiredArgsConstructor
 @ResponseStatus
+@CrossOrigin(origins = "http://localhost:4200")
 public class DepartmentController {
 
 

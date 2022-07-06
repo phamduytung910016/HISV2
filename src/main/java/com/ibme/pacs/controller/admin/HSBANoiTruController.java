@@ -21,6 +21,7 @@ import java.util.Map;
 @RequestMapping(path = "/api/admin/HSBANoiTru")
 @RequiredArgsConstructor
 @ResponseStatus
+@CrossOrigin(origins = "http://localhost:4200")
 public class HSBANoiTruController {
     private final IHoSoBenhAnNoiTruService hoSoBenhAnNoiTruService;
 

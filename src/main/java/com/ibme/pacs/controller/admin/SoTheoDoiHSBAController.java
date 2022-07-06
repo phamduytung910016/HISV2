@@ -38,6 +38,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(path = "/api/admin/soTheoDoi")
 @RequiredArgsConstructor
 @ResponseStatus
+@CrossOrigin(origins = "http://localhost:4200")
 public class SoTheoDoiHSBAController {
     private final ISoTheoDoiSaiSotHSBAService soTheoDoiSaiSotHSBAService;
     private final IEmployeeService employeeService;

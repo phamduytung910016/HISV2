@@ -38,6 +38,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(path = "/api/admin/employee")
 @RequiredArgsConstructor
 @ResponseStatus
+@CrossOrigin(origins = "http://localhost:4200")
 public class EmployeeController {
     private final IEmployeeService employeeService;
     private final IEmployeeRepository employeeRepository;
