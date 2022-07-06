@@ -49,7 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         EmployeeAuthenticationFilter employeeAuthenticationFilter = new EmployeeAuthenticationFilter(authenticationManagerBean(), (EmployeeServiceImpl) employeeService);
         employeeAuthenticationFilter.setFilterProcessesUrl("/api/login/**");
 
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/login", "/api/admin/employee/token/refresh/**").permitAll();
 
 
