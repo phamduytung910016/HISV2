@@ -23,11 +23,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+
 import java.util.List;
 
-import static java.lang.invoke.VarHandle.AccessMode.GET;
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
@@ -74,7 +72,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAnyAuthority(roleRepository.findById(6).get().getName()
                         , roleRepository.findById(7).get().getName());
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/admin/employee/**").hasAuthority(roleRepository.findById(6).get().getName());
-//        http.authorizeRequests().anyRequest().permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/admin/jobposition/**");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/admin/role/**");
+
+
+        //        http.authorizeRequests().anyRequest().permitAll();
         http.addFilter(employeeAuthenticationFilter);
         http.addFilterBefore(new EmployeeAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

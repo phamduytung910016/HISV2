@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/api/admin/jobposition")
+@RequestMapping(path = "/api/admin/role")
 @RequiredArgsConstructor
 @ResponseStatus
 @CrossOrigin(origins = "http://localhost:4200")
